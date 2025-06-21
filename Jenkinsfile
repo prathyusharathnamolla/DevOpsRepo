@@ -9,25 +9,36 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Build Docker Image') {
             steps {
-                echo "Build stage - Add your build logic here"
-                // Example: sh './build.sh'
+                echo "Building Docker image..."
+                sh 'docker build -t myapp-image .'
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                echo "Running Docker container..."
+                sh '''
+                    docker rm -f myapp-container || true
+                    docker run -d --name myapp-container -p 8080:8080 myapp-image
+                '''
             }
         }
 
         stage('Test') {
             steps {
-                echo "Test stage - Add your tests here"
-                // Example: sh './test.sh'
+                echo "Test stage - You can add tests here"
+                // Example: sh 'curl http://localhost:8080'
             }
         }
 
-        stage('Deploy') {
+        stage('Cleanup') {
             steps {
-                echo "Deploy stage - Add your deployment steps here"
-                // Example: sh './deploy.sh'
+                echo "Optional cleanup logic"
+                // Example: docker stop myapp-container
             }
         }
     }
 }
+
