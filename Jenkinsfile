@@ -2,36 +2,29 @@ pipeline {
     agent any
 
     tools {
-        maven 'maven' // Make sure Jenkins has this Maven version configured
+        maven 'maven'  // This MUST match the name in Global Tool Configuration
     }
 
     stages {
-        stage('Checkout Code') {
+        stage('Build') {
             steps {
-                echo "Cloning repository..."
-                checkout scm
-            }
-        }
-
-        stage('Build JAR') {
-            steps {
-                echo "Building JAR with Maven..."
                 sh 'mvn clean package'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Test') {
             steps {
-                echo "Building Docker image..."
-                sh 'docker build -t my-java-app .'
+                echo "Running tests..."
+                // Example: sh 'mvn test'
             }
         }
 
-        stage('Run Docker Container') {
+        stage('Deploy') {
             steps {
-                echo "Running Docker container..."
-                sh 'docker run -d -p 8080:8080 my-java-app'
+                echo "Deploying artifact..."
+                // Example: sh 'scp target/*.war user@host:/path/to/deploy'
             }
         }
     }
 }
+
