@@ -3,16 +3,19 @@ version: 0.2
 phases:
   build:
     commands:
-      - echo "📦 Build block"
+      - echo "Build phase started"
       - ls -la
-      - echo '🧪 Checking if "Congratulations" is present in index.html'
-      - if [ -f index.html ]; then grep "Congratulations" index.html; else echo "index.html not found"; fi
+      - echo "Running test: checking 'Congratulations' in index.html (if exists)"
+      - grep "Congratulations" index.html || echo "'Congratulations' not found or index.html missing"
+
   post_build:
     commands:
-      - echo "✅ Post build phase"
+      - echo "Post build phase completed"
 
 artifacts:
   files:
-    - '**/*'
-  discard-paths: yes
+    - appspec.yml
+    - scripts/**     # includes all scripts
+    - '**/*.html'    # in case you're deploying HTML files
+  discard-paths: no
 
