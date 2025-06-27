@@ -4,12 +4,9 @@ phases:
   build:
     commands:
       - echo "📦 Build block"
-      - echo "📁 Current directory contents:"
       - ls -la
-      - echo "🧪 Checking for 'Congratulations' in index.html"
-      - if [ -f index.html ]; then cat index.html; else echo "❌ index.html not found"; fi
-      - grep "Congratulations" index.html || echo "🔍 'Congratulations' not found or error, but continuing"
-
+      - echo '🧪 Checking if "Congratulations" is present in index.html'
+      - if [ -f index.html ]; then grep "Congratulations" index.html; else echo "index.html not found"; fi
   post_build:
     commands:
       - echo "✅ Post build phase"
