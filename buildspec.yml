@@ -1,18 +1,21 @@
 version: 0.2
 
-phases: 
-    build:
-        commands:
-            - echo "Build block"
-            - ls
-            - echo "Running tests to check if "Congratulations" present in index.html file"
-           - grep "Congratulations" index.html || true
-    post_build:
-        commands:
-            - echo "Post build phase"
-artifacts:
-    files:
-        - '**/*'        
-    discard-paths: yes
+phases:
+  build:
+    commands:
+      - echo "📦 Build block"
+      - echo "📁 Current directory contents:"
+      - ls -la
+      - echo "🧪 Checking for 'Congratulations' in index.html"
+      - if [ -f index.html ]; then cat index.html; else echo "❌ index.html not found"; fi
+      - grep "Congratulations" index.html || echo "🔍 'Congratulations' not found or error, but continuing"
 
-            
+  post_build:
+    commands:
+      - echo "✅ Post build phase"
+
+artifacts:
+  files:
+    - '**/*'
+  discard-paths: yes
+
